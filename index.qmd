@@ -1,11 +1,11 @@
 ---
-title: "project"
+title: "Hello!안녕하세요!"
 image: Pyo_image.jpg
 toc: false
 about:
   template: jolla
 
-  image-shape: round
+  image-shape: rectangle
 
   image-width: 15em
   
@@ -16,10 +16,18 @@ about:
     - icon: github
       text: GitHub
       href: https://github.com/Joonpyo-Ahn
-
+    - icon: envelope
+      text: Email
+      href: mailto:ankilo119@gmail.com
 ---
 
+Hi ! I'm Joonpyo Ahn. And you can call me **PYO!** 
 
+I am originally from South Korea and live in Seoul. I am an undergraduate student at Lawrence University, where I am majoring in **Psychology** and minoring in **Data Science** and **Statistics**. 
+
+I love exploring the intersection of human behavior and data, finding patterns that help us understand the world better. This personal website is a space to showcase the projects I’ve built throughout my academic journey.
+
+Welcome to my portfolio, and feel free to reach out through any of the links below!
 
 
 
