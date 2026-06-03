@@ -29,7 +29,14 @@ These projects showcase data science pipelines built during my coursework, encom
 * **Description:** Co-authored a collaborative, reproducible academic conference poster synthesizing Hadley Wickham’s foundational data architecture principles and mapping theoretical data structures to applied statistical workflows.
 * **Methodology:** Engineered a dynamic, 3-column HTML academic poster using the posterdown R package. Programmed custom, data-driven ggplot2 visualizations, including a geometric grid matrix simulating 3rd Normal Form (3NF) structural rules and a multi-series line plot modeling hourly variance from the Mexico mortality case study.
 * [**[View Full Poster](Paperposter.html)**]
+
 ---
 
 ## 🚀 Personal Projects
 
+These independent projects demonstrate my ability to bridge domain expertise (psychology and behavioral economics) with advanced computational data science methodologies.
+
+### Behavioral Analysis of the "Near-Miss Effect" via Computational Simulation
+* **Description:** Synthesized behavioral psychology and cognitive science literature to investigate how slot machine "near-misses" systematically drive user persistence, impulsivity, and cognitive distortions despite objective monetary losses.
+* **Methodology:** Engineered a computational data pipeline in R to simulate psychophysiological metrics based on historical literature variances, specifically Skin Conductance Response (SCR) and post-reinforcement pause latencies. Applied ANOVA statistical testing and constructed multi-variable `ggplot2` visualizations to mathematically model the affective loops driving continuous gambling behavior.
+* [**[View Full Research & Simulation Report](Near_miss.qmd)**]
