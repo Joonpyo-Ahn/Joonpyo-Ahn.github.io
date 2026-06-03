@@ -1,5 +1,19 @@
 ---
-title: "About"
+title: "Beyond the Data"
 ---
 
-About this site
+Welcome to the broader picture! While my academic focus lies at the intersection of psychology and data science, my curiosity extends into other analytically and personal pursuits.
+
+## 📈 Quantitative Interests & Market Analysis
+
+Beyond academic coursework, I am deeply interested in the financial markets and quantitative investing. I actively manage a personal stock portfolio, applying my statistical background and data-driven mindset to analyze market trends, evaluate fundamental metrics, and optimize asset allocation. Translating raw market data into personal investment strategies is one of my favorite ways to practice applied statistics in the real world.
+
+
+## 🏃‍♂️ Out of Office
+
+When I'm free, I enjoy stepping away from the screen to recharge:
+
+* **Football:** I am a massive Manchester City fan and actively play in a local Sunday league. Whether I'm analyzing tactical setups on TV or running on the pitch, football is my ultimate stress reliever.
+* **Strategic Poker:** I love playing poker. It’s the perfect hobby that naturally blends my academic interests—combining statistical probability with behavioral psychology and strategic decision-making under pressure.
+* **Language Learning (Japanese):** I am currently studying Japanese. Learning a new linguistic structure challenges my brain in different ways and opens up exciting new cultural perspectives.
+* **Psychology in Everyday Life:** Even outside the classroom, my background in psychology means I’m always observing and analyzing the quirky ways people interact with the world around them!
