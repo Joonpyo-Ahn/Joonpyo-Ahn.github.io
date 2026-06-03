@@ -1,0 +1,30 @@
+---
+title: "Data Science Projects"
+format: html
+---
+
+## ️ Class Projects
+
+
+These projects showcase data science pipelines built during my coursework, encompassing data cleaning, relational database modeling, complex SQL querying, and data visualization.
+
+### 1. WSOP Main Event SQL Data Analysis
+* **Description:** Analyzed historical World Series of Poker (WSOP) Main Event data spanning from 1971 to 2025 to uncover trends regarding player Return on Investment (ROI), year-over-year participation growth, and cumulative geographical performance metrics.
+* **Data Modeling:** Transformed unstructured raw CSV data into a 3rd Normal Form (3NF) relational schema by separating metrics into distinct `players`, `tournaments`, and `results` tables, which were sequentially mapped and managed within a high-performance DuckDB instance.
+* [**[View Full Analysis Report](Project_2_Template.qmd)**]
+
+### 2. 2022 FIFA World Cup Twitter Text Analysis
+* **Description:** Explored the "digital stadium" of the 2022 FIFA World Cup by analyzing thousands of tweets to determine which national teams dominated online attention and emotional engagement.
+* **Methodology:** Combined tokenization, sentiment analysis utilizing the Bing lexicon, and TF-IDF modeling to differentiate the unique narrative voices of Verified Media Accounts versus Standard Fans.
+* [**[View Full Analysis Report](Project_3_Template.qmd)**]
+
+### 3. Psych Tools R Package Development
+* **Description:** Designed and developed an original, production-ready R package tailored for psychological research workflows, bridging the gap between raw survey data cleaning and APA-compliant manuscript preparation by streamlining Likert-item scaling and text-tag tokenization.
+
+* **Methodology:** Engineered a robust, modular codebase featuring three core functions with defensive programming via the checkmate package for fail-graceful error handling. Implemented strict formal unit testing using the testthat framework to manage edge cases (e.g., zero-range and logical NA vector inputs). Configured automated package building, roxygen2 inline documentation, an internal dataset (survey_demo), a long-form procedural workflow vignette, and deployed a professional static documentation website using pkgdown via GitHub Pages.
+* [**[View Full GitHub Repository](https://github.com/ADC-405-S26/Pyo_project4)**]
+
+---
+
+## 🚀 Personal Projects
+

@@ -3,11 +3,13 @@ project:
   output-dir: docs
   
 website:
-  title: "project"
+  title: "Pyo's portfolio"
   navbar:
     left:
       - href: index.qmd
         text: Home
+      - href: projects.qmd
+        text: Projects
       - about.qmd
 
 format:

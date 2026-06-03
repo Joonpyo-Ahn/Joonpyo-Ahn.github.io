@@ -1,0 +1,312 @@
+---
+title: "Project 2 : WSOP Main Event data analysis"
+format: pdf
+author: "Group Members: Pyo & Frank"
+---
+
+
+```{r setup}
+#| message: false
+#| warning: false
+#| include: false
+
+
+library(tidyverse)
+library(DBI)
+library(duckdb)
+
+```
+
+# Workflow & Reproducibility Guide
+
+To ensure this entire workflow is fully reproducible, follow these steps:
+
+Download the raw dataset from Kaggle (link provided in the Sources section).
+
+Place the file WSOP__1971-2025.csv in your working directory.
+
+Run this Quarto document. The R setup will automatically clean the data, normalize it into 3rd Normal Form (3NF) relational tables, export them as temporary CSVs, and ingest them into a local DuckDB file (poker_analysis.duckdb).
+
+### ---------------------------------------------------------------------------
+# Accessing data & Designing the database
+
+```{r}
+
+wsop_old <- read_csv("WSOP__1971-2025.csv")
+
+wsop_raw <- wsop_old %>%
+  mutate(
+    country = case_when(
+      country %in% c("US", "USA") ~ "USA",
+      is.na(country) ~ "Unknown",
+      TRUE ~ country
+    ),
+    
+    city = replace_na(city, "Unknown"),
+    state = replace_na(state, "Unknown")
+  )
+
+# Players
+
+players <- wsop_raw %>%
+  select(name, city, state, country) %>%
+  distinct() %>%
+  mutate(player_id = row_number()) %>%
+  relocate(player_id) 
+
+# Tournaments
+tournaments <- wsop_raw %>%
+  select(year, entries, prizepool, buyin, start, finish) %>%
+  distinct() %>%
+  mutate(event_id = row_number()) %>%
+  relocate(event_id) 
+
+# Results
+results <- wsop_raw %>%
+  left_join(players, by = c("name", "city", "state", "country")) %>%
+  left_join(tournaments, by = c("year", "entries", "prizepool", "buyin", "start", "finish")) %>%
+  select(player_id, event_id, place, prize) %>%
+  mutate(result_id = row_number()) %>%
+  relocate(result_id)  
+
+
+write_csv(players, "players.csv")
+write_csv(tournaments, "tournaments.csv")
+write_csv(results, "results.csv")
+
+# DuckDB
+con <- dbConnect(duckdb(), dbdir = "poker_analysis.duckdb")
+
+# --- Players ---
+dbExecute(con, "DROP TABLE IF EXISTS players;")
+dbExecute(con, "CREATE TABLE players (
+    player_id INTEGER PRIMARY KEY,
+    name VARCHAR(255),
+    city VARCHAR(255),
+    state VARCHAR(50),
+    country VARCHAR(100)
+);")
+dbExecute(con, "COPY players FROM 'players.csv' (FORMAT CSV, HEADER);")
+
+# --- Tournaments ---
+dbExecute(con, "DROP TABLE IF EXISTS tournaments;")
+dbExecute(con, "CREATE TABLE tournaments (
+    event_id INTEGER PRIMARY KEY,
+    year INTEGER,
+    entries INTEGER,
+    prizepool BIGINT,
+    buyin INTEGER,
+    start DATE,
+    finish DATE
+);")
+dbExecute(con, "COPY tournaments FROM 'tournaments.csv' (FORMAT CSV, HEADER);")
+
+# --- Results ---
+dbExecute(con, "DROP TABLE IF EXISTS results;")
+dbExecute(con, "CREATE TABLE results (
+    result_id INTEGER PRIMARY KEY,
+    player_id INTEGER,
+    event_id INTEGER,
+    place INTEGER,
+    prize BIGINT
+);")
+dbExecute(con, "COPY results FROM 'results.csv' (FORMAT CSV, HEADER);")
+
+dbGetQuery(con, "SELECT * FROM players LIMIT 5;")
+```
+
+
+
+
+
+### ---------------------------------------------------------------------------
+# Querying data using SQL
+
+# Global Dominance: Top 10 Countries by Total WSOP Winnings
+# Analyzing which countries have produced the highest cumulative prize money through successful tournament finishes.
+
+```{sql connection=con}
+SELECT 
+    p.country, 
+    SUM(r.prize) AS total_winnings,
+    COUNT(r.result_id) AS total_cashes
+FROM players AS p
+JOIN results AS r ON p.player_id = r.player_id
+WHERE p.country IS NOT NULL
+GROUP BY p.country
+ORDER BY total_winnings DESC
+LIMIT 10;
+```
+#Top 10 Career Earners in Main Event History
+#Identifying the individual players who have secured the most prize money across their entire WSOP careers. 
+```{sql connection=con}
+SELECT 
+    p.name, 
+    SUM(r.prize) AS career_earnings
+FROM players AS p
+JOIN results AS r ON p.player_id = r.player_id
+GROUP BY p.name
+ORDER BY career_earnings DESC
+LIMIT 10;
+```
+#Top 10 Highest ROI Performances
+# Calculating the Return on Investment (ROI) to determine which tournament runs were the most profitable relative to the buy-in.
+```{sql connection=con}
+SELECT 
+    t.year, 
+    t.buyin, 
+    r.prize,
+    ((r.prize - t.buyin) * 100.0 / t.buyin) AS roi_percentage
+FROM tournaments AS t
+JOIN results AS r ON t.event_id = r.event_id
+WHERE r.prize > 0
+ORDER BY roi_percentage DESC
+LIMIT 10;
+```
+
+# Most Reliable Players with 10+ Career Cashes
+# Filtering for elite players who consistently finish in the money, demonstrating long-term skill and stability.
+```{sql connection=con}
+SELECT 
+    p.name, 
+    COUNT(r.result_id) AS cash_count,
+    AVG(r.place) AS average_place
+FROM players AS p
+JOIN results AS r ON p.player_id = r.player_id
+GROUP BY p.name
+HAVING COUNT(r.result_id) >= 10
+ORDER BY average_place ASC
+LIMIT 10;
+```
+
+# Year-over-year growth in entries
+```{sql connection=con}
+SELECT
+    year,
+    SUM(entries) AS total_entries,
+    LAG(SUM(entries)) OVER (ORDER BY year) AS previous_year_entries,
+    ROUND(
+        100.0 * (SUM(entries) - LAG(SUM(entries)) OVER (ORDER BY year))
+        / LAG(SUM(entries)) OVER (ORDER BY year), 2
+    ) AS yoy_entry_growth_pct
+FROM tournaments
+GROUP BY year
+ORDER BY year;
+```
+
+# Top 10 years by total prizepool
+```{sql connection=con}
+SELECT
+    year,
+    SUM(prizepool) AS total_prizepool,
+    SUM(entries) AS total_entries,
+    COUNT(*) AS total_events
+FROM tournaments
+GROUP BY year
+ORDER BY total_prizepool DESC
+LIMIT 10;
+```
+
+# Buy-in distribution by year
+```{sql connection=con}
+SELECT
+    CASE
+        WHEN buyin < 1000 THEN 'Under $1K'
+        WHEN buyin BETWEEN 1000 AND 4999 THEN '$1K-$4,999'
+        WHEN buyin BETWEEN 5000 AND 9999 THEN '$5K-$9,999'
+        ELSE '$10K+'
+    END AS buyin_tier,
+    COUNT(*) AS number_of_tournaments,
+    AVG(entries) AS avg_entries,
+    AVG(prizepool) AS avg_prizepool
+FROM tournaments
+GROUP BY buyin_tier
+ORDER BY number_of_tournaments DESC;
+```
+
+# Most Profitable Buy-In Levels
+```{sql connection=con}
+SELECT
+    t.buyin,
+    COUNT(r.result_id) AS total_cash_results,
+    ROUND(AVG(r.prize), 2) AS avg_prize,
+    MAX(r.prize) AS max_prize,
+    SUM(r.prize) AS total_prize_awarded
+FROM tournaments AS t
+JOIN results AS r
+    ON t.event_id = r.event_id
+WHERE t.buyin IS NOT NULL
+GROUP BY t.buyin
+HAVING COUNT(r.result_id) >= 20
+ORDER BY avg_prize DESC
+LIMIT 10;
+```
+
+
+### ---------------------------------------------------------------------------
+# Creating data visualizations
+```{r}
+country_data <- dbGetQuery(con, "
+    SELECT p.country, SUM(r.prize) as total 
+    FROM players AS p 
+    JOIN results AS r ON p.player_id = r.player_id 
+    WHERE p.country IS NOT NULL
+    GROUP BY p.country 
+    ORDER BY total DESC 
+    LIMIT 5")
+
+ggplot(country_data, aes(x = reorder(country, total), y = total, fill = country)) +
+  geom_col(show.legend = FALSE) +
+  scale_y_continuous(labels = scales::dollar_format()) +
+  coord_flip() +  
+  labs(
+    title = "Top 5 Poker Powerhouses by Total Winnings",
+    subtitle = "Analysis of WSOP Main Event Data (1971-2025)",
+    x = "Country",
+    y = "Total Prize Money ($)"
+  ) +
+  theme_minimal()
+
+```
+
+# YoY winning table
+```{r}
+yoy_growth <- dbGetQuery(con, "
+SELECT
+    year,
+    SUM(entries) AS total_entries
+FROM tournaments
+GROUP BY year
+ORDER BY year
+")
+
+ggplot(yoy_growth, aes(x = year, y = total_entries)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2) +
+  labs(
+    title = "WSOP Tournament Participation Over Time",
+    subtitle = "Total yearly entries across all tournaments",
+    x = "Year",
+    y = "Total Entries"
+  ) +
+  theme_minimal()
+```
+
+
+```{r}
+# terminate the SQL connection
+
+DBI::dbDisconnect(con, shutdown = TRUE)
+
+```
+
+### ---------------------------------------------------------------------------
+
+# Sources
+
+* https://www.kaggle.com/datasets/cviaxmiwnptr/wsop-main-event-results-1971-2024?resource=download
+
+* web link/document title/LLM prompt
+
+
+### ---------------------------------------------------------------------------
