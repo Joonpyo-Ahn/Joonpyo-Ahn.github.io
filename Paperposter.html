@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<!--
+Font-awesome icons ie github or twitter
+-->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/brands.css" integrity="sha384-n9+6/aSqa9lBidZMRCQHTHKJscPq6NW4pCQBiMmHdUCvPN8ZOg2zJJTkC7WIezWv" crossorigin="anonymous">
+
+<!--
+Google fonts api stuff
+-->
+
+
+
+<title>Tidy Data: Structuring Datasets for Effective Analysis, Modeling, and Visualization</title>
+
+
+
+
+
+
+<style>
+@page {
+size: 45in 38in;
+margin: 0;
+padding: 0;
+}
+body {
+margin: 0;
+font-size: 45px;
+width: 45in;
+height: 38in;
+padding: 0;
+text-align: justify;
+font-family: Palatino;
+}
+.poster_wrap {
+width: 45in;
+height: 38in;
+padding: 0cm;
+}
+.title_container {
+width: 100%;
+height: 15%;
+overflow: hidden;
+background-color: #0b4545;
+border: 0 solid #0b4545
+;
+}
+.logo_left {
+float: left;
+width: 10%;
+height: 100%;
+background-color: #0b4545;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+.logo_right {
+float: right;
+width: 10%;
+height: 100%;
+background-color: #0b4545;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+.poster_title {
+text-align: center;
+position: relative;
+float: left;
+width: 80%;
+height: 100%;
+color: #FFFFFF;
+top: 50%;
+transform: translateY(-50%);
+-webkit-transform: translateY(-50%);
+}
+#title {
+font-family: Palatino;
+}
+/* unvisited link */
+a:link {
+color: #008080;
+text-decoration: none;
+}
+.mybreak {
+  break-before: column;
+}
+/* visited link */
+a:visited {
+color: #008080;
+text-decoration: none;
+}
+
+/* mouse over link */
+a:hover {
+color: #008080;
+text-decoration: none;
+}
+
+/* selected link */
+a:active {
+color: #008080;
+text-decoration: none;
+}
+.poster_body {
+-webkit-column-count: 3; /* Chrome, Safari, Opera */
+-moz-column-count: 3; /* Firefox */
+column-count: 3;
+-webkit-column-fill: auto;
+-moz-column-fill: auto;
+column-fill: auto;
+-webkit-column-rule-width: 1mm;
+-moz-column-rule-width: 1mm;
+column-rule-width: 1mm;
+-webkit-column-rule-style: dashed;
+-moz-column-rule-style: dashed;
+column-rule-style: dashed;
+-webkit-column-rule-color: #0b4545;
+-moz-column-rule-color: #0b4545;
+column-rule-color: #0b4545;
+column-gap: 1em;
+padding-left: 0.5em;
+padding-right: 0.5em;
+height: 100%;
+color: #000000
+background-color: #ffffff;
+}
+.poster_title h1 {
+font-size: 75pt;
+margin: 0;
+border: 0;
+font-weight: normal;
+}
+.poster_body_wrap{
+width: 45in;
+height: calc(100% - 17%);
+padding-top: calc(38in * 0.01);
+padding-bottom: calc(38in * 0.01);
+background-color: #ffffff;
+}
+.poster_title h3 {
+color: #ffffff;
+font-size: 50pt;
+margin: 0;
+border: 0;
+font-weight: normal;
+}
+.poster_title h3 > sup {
+  font-size: 35pt;
+  margin-left: 0.02em;
+}
+.poster_title h5 {
+color: #FFFFFF;
+font-size: 35pt;
+margin: 0;
+border: 0;
+font-weight: normal;
+}
+img {
+margin-top: 0;
+margin-bottom: 0;
+}
+.section {
+  padding: 0.2em;
+}
+.poster_body h1 {
+text-align: center;
+color: #FFFFFF;
+font-size: 65pt;
+border: 2mm solid #0b4545;
+background-color: #0b4545;
+border-radius: 4mm 0mm;
+margin-top: 2mm;
+margin-bottom: 2mm;
+font-weight: normal;
+}
+.poster_body h2 {
+color: #000000;
+font-size: 40pt;
+padding-left: 4mm;
+font-weight: normal;
+}
+.span {
+width: 200%;
+}
+/* center align leaflet map,
+from https://stackoverflow.com/questions/52112119/center-leaflet-in-a-rmarkdown-document */
+.html-widget {
+margin: auto;
+position: sticky;
+margin-top: 2cm;
+margin-bottom: 2cm;
+}
+.leaflet.html-widget.html-widget-static-bound.leaflet-container.leaflet-touch.leaflet-fade-anim.leaflet-grab.leaflet-touch-drag.leaflet-touch-zoom {
+position: sticky;
+width: 100%;
+}
+pre.sourceCode.r, pre.sourceCode.python {
+background-color: #ffffff20;
+border: solid #008080 1mm;
+border-radius: 0.5em;
+padding: 4mm;
+margin: auto;
+margin-top: 1em;
+margin-bottom: 1em;
+/* align-items: center; */
+}
+div.sourceCode {
+background-color: transparent;
+width: 85%;
+margin-left: auto;
+margin-right: auto;
+}
+code.sourceCode.r, code.sourceCode.python {
+background-color: transparent;
+font-size: 20pt;
+border-radius: 2mm;
+}
+code {
+font-size: 25pt;
+font-family: monospace;
+background-color: #00808024;
+color: #008080;
+padding: 1.2mm;
+line-height: 1;
+border-radius: 2mm;
+}
+.caption {
+font-size: 20pt;
+}
+.table caption {
+font-size: 20pt;
+padding-bottom: 3mm;
+
+}
+code {
+font-size: 1em;
+font-family: monospace;
+background-color: #00808024;
+color: #0b4545;
+padding: 1.2mm;
+border-radius: 2mm;
+}
+.poster_title code {
+font-size: 1em;
+}
+table {
+font-size: 40px;
+margin: auto;
+border-top: 3px solid #666;
+border-bottom: 3px solid #666;
+}
+table thead th {
+border-bottom: 3px solid #ddd;
+}
+td {
+padding: 8px;
+}
+th {
+padding: 15px;
+}
+caption {
+margin-bottom: 10px;
+}
+.poster_body p {
+margin-right: 4mm;
+margin-left: 4mm;
+margin-top: 6mm;
+margin-bottom: 10mm;
+color: #000000
+}
+.poster_body ol {
+margin-right: 4mm;
+margin-left: 4mm;
+}
+#ul {
+margin-right: 4mm;
+margin-left: 4mm;
+}
+.references p {
+font-size: 20pt;
+}
+.orcid img {
+  width: 1em;
+}
+</style>
+</head>
+<body>
+
+
+<div class="poster_wrap">
+<div class="title_container">
+<!-- Left Logo  -->
+<div class="logo_left">
+</div>
+<!-- Poster Title -->
+<div class= "poster_title">
+<h1 id="title">Tidy Data: Structuring Datasets for Effective Analysis, Modeling, and Visualization</h1>
+<h3 id="author">Joonpyo Ahn<sup></sup>, Minh Nguyen<sup></sup></h3>
+<h5 id="affiliation"><sup></sup> Lawrence University</h5>
+</div>
+<!-- Right Logo  -->
+<div class="logo_right">
+</div>
+</div>
+
+<div class='poster_body_wrap'>
+<div class='poster_body'>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>A common rule of thumb in data analysis is that nearly <strong>80% of the work</strong> is spent cleaning and preparing data. Despite how much time this takes, there has been relatively little focus on how datasets should be structured for effective analysis.</p>
+<p>This presentation focuses on <strong>data tidying</strong> , a key part of data cleaning. The main idea of tidy data is to organize datasets so their structure clearly matches their meaning. By reducing repetitive data manipulation, tidy data helps analysts spend more time on meaningful questions instead of technical cleanup.</p>
+</div>
+<div id="defining-tidy-data" class="section level1">
+<h1>Defining Tidy Data</h1>
+<blockquote>
+<p>“Happy families are all alike; every unhappy family is unhappy in its own way.”
+— Leo Tolstoy</p>
+</blockquote>
+<p>Like families, tidy datasets are all alike, but every messy dataset is messy in its own way. In a structured dataset, values are organized into <strong>variables</strong> (attributes measured across units) and <strong>observations</strong> (all attributes measured on a single unit).</p>
+<p>To be considered <strong>Tidy Data</strong>, a dataset must satisfy three strict geometric rules:</p>
+<ul>
+<li><strong>Rule 1</strong>: Each variable must form a single column.</li>
+<li><strong>Rule 2</strong>: Each observation must form a single row.</li>
+<li><strong>Rule 3</strong>: Each type of observational unit must form its own table.</li>
+</ul>
+<p>Any other structural arrangement of data values is defined as <strong>messy data</strong>.</p>
+<p><img src="Paperposter_files/figure-html/tidy-proof-plot-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="Paperposter_files/figure-html/tidy-geometry-concept-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="tidying-messy-datasets" class="section level1">
+<h1>Tidying Messy Datasets</h1>
+<p>Real-world datasets frequently violate the precepts of tidy data. Most messy structures can be completely resolved using a small set of foundational tools, primarily <strong>melting</strong> (stacking wide columns into rows) and <strong>string splitting</strong>.</p>
+<div id="column-headers-are-values-not-variable-names" class="section level2">
+<h2>3.1 Column Headers are Values, Not Variable Names</h2>
+<ul>
+<li>This problem frequently occurs in tabular datasets designed for presentation, where variables form both rows and columns.</li>
+<li><strong>Example</strong>: The Pew Research Center survey on income and religion, where different income ranges (e.g., &lt;$10k, $10-20k) serve as column headers instead of variable names.</li>
+<li><strong>Solution</strong>: We parameterize the dataset by its true variable column (<code>religion</code>) and <strong>melt (stack)</strong> the remaining columns into two new variables: <code>income</code> and <code>frequency</code>.</li>
+</ul>
+</div>
+<div id="multiple-variables-are-stored-in-one-column" class="section level2">
+<h2>3.2 Multiple Variables are Stored in One Column</h2>
+<ul>
+<li>After melting a wide dataset, the resulting column headers often become a compound combination of multiple underlying variable names.</li>
+<li><strong>Example</strong>: The World Health Organization (WHO) Tuberculosis (TB) dataset contains columns like <code>m014</code> and <code>f1524</code>, which mix both sex (<code>m</code>/<code>f</code>) and age demographic groups (<code>0-14</code>/<code>15-24</code>) together.</li>
+<li><strong>Solution</strong>: Tying this data requires a <strong>string splitting</strong> operation or lookup table to separate the compound values into two distinct, semantic columns: <code>sex</code> and <code>age</code>.</li>
+</ul>
+</div>
+<div id="variables-are-stored-in-both-rows-and-columns" class="section level2">
+<h2>3.3 Variables are Stored in Both Rows and Columns</h2>
+<ul>
+<li>This represents the most complex form of messy data, where structural components are scattered in both directions.</li>
+<li><strong>Example</strong>: Global Historical Climatology Network weather data (Station MX17004), where individual days are spread across columns (<code>d1</code>–<code>d31</code>), while actual variables like minimum (<code>tmin</code>) and maximum (<code>tmax</code>) temperatures are stored vertically as row elements.</li>
+<li><strong>Solution</strong>: We first <strong>melt</strong> the wide day columns into a uniform date variable, and then apply a <strong>cast (unstack)</strong> operation to rotate the weather elements (<code>tmin</code>, <code>tmax</code>) back out into their own independent column headers.</li>
+</ul>
+</div>
+<div id="multiple-types-of-observational-units-in-one-table" class="section level2">
+<h2>3.4 Multiple Types of Observational Units in One Table</h2>
+<p>A dataset can also be messy when it stores different kinds of observational units in the same table. In this case, the issue is not only the shape of the data, but also the meaning of each row.</p>
+<p>In the Billboard example, one table contains two different units:</p>
+<ul>
+<li><strong>Song-level information</strong>: artist, track, and time</li>
+<li><strong>Week-level information</strong>: date and chart rank This creates repeated information because the same song details appear again for every week the song is on the chart. The tidy solution is to split the data into separate tables:</li>
+<li>A <strong>song table</strong> for artist, track, and time</li>
+<li>A <strong>ranking table</strong> for date and weekly rank</li>
+<li>A shared <strong>id</strong> column to connect the two tables This process is related to database normalization. Each fact should be stored in one place, so the data is easier to update, join, and check for errors.</li>
+</ul>
+<p><img src="image/table%2013.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="one-type-in-multiple-tables" class="section level2">
+<h2>3.5 One Type in Multiple Tables</h2>
+<p>The opposite problem can also happen: one type of observational unit may be spread across many different files or tables.
+For example, baby name data might be stored as separate files by year <code>1990.csv</code>, <code>1991.csv</code>, <code>1992.csv</code></p>
+<p>Even though the files are separate, they all describe the same kind of unit: baby names recorded by year.</p>
+<p>If the structure of each file is consistent, the solution is straightforward:</p>
+<ul>
+<li><ol style="list-style-type: decimal">
+<li>Read all files into R</li>
+</ol></li>
+<li><ol start="2" style="list-style-type: decimal">
+<li>Add a new column that records the source file or year</li>
+</ol></li>
+<li><ol start="3" style="list-style-type: decimal">
+<li>Combine the files into one table</li>
+</ol></li>
+</ul>
+</div>
+</div>
+<div id="tidy-tools" class="section level1">
+<h1>4. Tidy Tools</h1>
+<p>Tidying data matters because it makes the next steps of analysis easier. Once a dataset is tidy, different tools can work together without the analyst constantly reshaping the data.</p>
+<p>In a tidy dataset, each variable has its own column. This makes it simple for R functions to know what each part of the data means.
+For example, if <code>rank</code>, <code>artist</code>, and <code>week</code> are all separate columns, we can filter songs, group by artist, calculate summaries, and make graphs using the same structure.
+Tidy tools are useful because they follow the same logic:</p>
+<ul>
+<li>They take a tidy dataset as input</li>
+<li>They perform one clear task</li>
+<li>They return a result that can be used in the next step</li>
+</ul>
+<pre><code>## # A tibble: 2 × 4
+##   song   artist   best_rank weeks_in_top_20
+##   &lt;chr&gt;  &lt;chr&gt;        &lt;dbl&gt;           &lt;int&gt;
+## 1 Song A Artist 1         8               2
+## 2 Song B Artist 2        12               1</code></pre>
+<p>This code works smoothly because the data is already tidy:</p>
+<ul>
+<li><strong>filter()</strong> keeps only rows where the song ranked in the top 20</li>
+<li><strong>group_by()</strong> organizes the data by song and artist</li>
+<li><strong>summarise()</strong> creates a smaller summary table</li>
+</ul>
+<p>The output is still a clean table that can be used for a graph or model</p>
+<p>This is the main value of tidy tools. They allow analysis to move step by step <strong>from cleaning, to manipulation, to visualization, to modeling</strong>.</p>
+<div id="case-study-mortality-in-mexico" class="section level2">
+<h2>5. Case Study: Mortality in Mexico</h2>
+<p>Wickham applies tidy data to mortality data from Mexico in 2008. The goal is to find causes of death with unusual patterns across different hours of the day.</p>
+<p>The tidy workflow follows these steps:</p>
+<ul>
+<li><ol style="list-style-type: decimal">
+<li>Count deaths by hour and cause</li>
+</ol></li>
+<li><ol start="2" style="list-style-type: decimal">
+<li>Remove missing hour values</li>
+</ol></li>
+<li><ol start="3" style="list-style-type: decimal">
+<li>Join disease labels to the cause-of-death codes</li>
+</ol></li>
+<li><ol start="4" style="list-style-type: decimal">
+<li>Calculate the proportion of deaths in each hour</li>
+</ol></li>
+<li><ol start="5" style="list-style-type: decimal">
+<li>Compare each disease pattern to the overall hourly death pattern</li>
+</ol></li>
+<li><ol start="6" style="list-style-type: decimal">
+<li>Identify causes of death that look unusual</li>
+</ol></li>
+</ul>
+<p>The case study finds that some causes of death have clear hourly patterns:</p>
+<ul>
+<li>Murder is more common at night</li>
+<li>Drowning is more common in the afternoon</li>
+<li>Transportation-related deaths are more common around commute times</li>
+</ul>
+<p><img src="Paperposter_files/figure-html/unnamed-chunk-4-1.png" alt="" width="90%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<p>Tidy data follows three main rules: each variable is a column, each observation is a row, and each type of observational unit has its own table. This structure makes data analysis clearer and more efficient.</p>
+<p>By reducing unnecessary cleaning work, tidy data allows analysts to focus more on the research question. It also supports a smoother workflow across cleaning, visualization, and modeling.</p>
+<p>Although tidy data is not ideal for every complex data format, it provides a practical and reproducible standard for most tabular datasets used in R.</p>
+<div id="why-it-matters-today" class="section level2">
+<h2>Why It Matters Today</h2>
+<p>When Wickham published <em>Tidy Data</em> in 2014, many analysts still had to create their own rules for organizing messy datasets. This paper shaped modern data formatting by providing an explicit, standardized framework for how data should be structured: variables in columns, observations in rows, and observational units in tables.</p>
+<p>Today, that logic shapes the tidyverse, including tools like <code>dplyr</code>, <code>tidyr</code>, <code>ggplot2</code>, and <code>purrr</code>. Every time we use <code>filter()</code>, <code>mutate()</code>, or <code>ggplot()</code> in this course, we are using tools built on the philosophy of this paper.</p>
+</div>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+<p>Dasu T, Johnson T (2003). <em>Exploratory Data Mining and Data Cleaning</em>. John Wiley &amp; Sons.</p>
+<p>Wickham H (2014). “Tidy Data.” <em>Journal of Statistical Software</em>, <strong>59</strong>(10), 1–23.</p>
+<p>Wickham H (2009). <em>ggplot2: Elegant Graphics for Data Analysis</em>. Springer-Verlag, New York.</p>
+<p>Wickham H (2011). “The Split-Apply-Combine Strategy for Data Analysis.” <em>Journal of Statistical Software</em>, <strong>40</strong>(1), 1–29.</p>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+</body>
+</html>

@@ -24,6 +24,11 @@ These projects showcase data science pipelines built during my coursework, encom
 * **Methodology:** Engineered a robust, modular codebase featuring three core functions with defensive programming via the checkmate package for fail-graceful error handling. Implemented strict formal unit testing using the testthat framework to manage edge cases (e.g., zero-range and logical NA vector inputs). Configured automated package building, roxygen2 inline documentation, an internal dataset (survey_demo), a long-form procedural workflow vignette, and deployed a professional static documentation website using pkgdown via GitHub Pages.
 * [**[View Full GitHub Repository](https://github.com/ADC-405-S26/Pyo_project4)**]
 
+
+### 4. "Tidy Data" Reproducible Academic Conference Poster
+* **Description:** Co-authored a collaborative, reproducible academic conference poster synthesizing Hadley Wickham’s foundational data architecture principles and mapping theoretical data structures to applied statistical workflows.
+* **Methodology:** Engineered a dynamic, 3-column HTML academic poster using the posterdown R package. Programmed custom, data-driven ggplot2 visualizations, including a geometric grid matrix simulating 3rd Normal Form (3NF) structural rules and a multi-series line plot modeling hourly variance from the Mexico mortality case study.
+* [**[View Full Poster](Paperposter.html)**]
 ---
 
 ## 🚀 Personal Projects
